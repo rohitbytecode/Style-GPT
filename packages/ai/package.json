@@ -1,0 +1,13 @@
+{
+    "name": "@style-gpt/ai",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "tsc"
+    },
+    "devDependencies": {
+        "@types/node": "^26.2.2",
+        "typescript": "^7.0.2"
+    }
+}
