@@ -9,6 +9,7 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
+    "@style-gpt/ai": "workspace:*",
     "express": "^5.2.1"
   },
   "devDependencies": {
