@@ -1,4 +1,4 @@
-const API_URL = "https://localhost:7190";
+const API_URL = "http://localhost:7190";
 
 export async function streamChat(
     message: string,

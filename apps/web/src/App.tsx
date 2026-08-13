@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useChat } from './hooks/useChat';
+import { ChatMessage } from './components/ChatMessage';
 
 function App() {
   const [input, setInput] = useState("");
@@ -36,14 +37,11 @@ function App() {
         </button>
 
         <section>
-          {messages.map((messages) => (
-          <article key={messages.id}>
-            <strong>{messages.role}</strong>
-
-            <pre>
-              {messages.content}
-            </pre>
-          </article>
+          {messages.map((message) => (
+          <ChatMessage
+            key={message.id}
+            message={message}
+          />
         ))}
 
         {error && (
