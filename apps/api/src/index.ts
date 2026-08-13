@@ -1,9 +1,15 @@
 import express from 'express';
 import { chatStream, CSS_SYSTEM_PROMPT } from "@style-gpt/ai";
+import cors from "cors";
 
 const app = express();
 const PORT = 7190;
 
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+    })
+)
 app.use(express.json());
 
 app.get("/", (_req, res) => {

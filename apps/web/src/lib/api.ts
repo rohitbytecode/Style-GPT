@@ -17,6 +17,33 @@ export async function streamChat(
     }
 
     if(!response.body) {
-        throw new Error
+        throw new Error("API response has no body");
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    try {
+        while (true) {
+            const { value, done } = await reader.read();
+
+            if(done) {
+                break;
+            }
+
+            const chunk = decoder.decode(value, { stream: true });
+
+            if(chunk) {
+                onChunk(chunk);
+            }
+        }
+
+        const remaining = decoder.decode();
+
+        if(remaining) {
+            onChunk(remaining);
+        }
+    } finally {
+        reader.releaseLock();
     }
 }
