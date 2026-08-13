@@ -1,5 +1,5 @@
 import express from 'express';
-import { chatStream } from "@style-gpt/ai";
+import { chatStream, CSS_SYSTEM_PROMPT } from "@style-gpt/ai";
 
 const app = express();
 const PORT = 7190;
@@ -41,9 +41,13 @@ app.post("/api/chat", async (req, res) => {
 
         for await (const chunk of chatStream([
             {
+                role: "system",
+                content: CSS_SYSTEM_PROMPT,
+            },
+            {
                 role: "user",
                 content: message,
-            },
+            }
         ])) {
             res.write(chunk);
         }
