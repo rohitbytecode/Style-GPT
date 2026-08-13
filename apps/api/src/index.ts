@@ -1,5 +1,5 @@
 import express from 'express';
-import { chat } from "@style-gpt/ai";
+import { chatStream } from "@style-gpt/ai";
 
 const app = express();
 const PORT = 7190;
@@ -26,29 +26,39 @@ app.post("/api/chat", async (req, res) => {
             message?: unknown;
         };
 
-        if (typeof message !== "string" || message.trim().length === 0) {
+        if(typeof message !== "string" || message.trim().length === 0) {
             res.status(400).json({
                 error: "message must be a non-empty string",
             });
             return;
         }
 
-        const response = await chat([
+        res.status(200);
+        res.setHeader("Content-Type", "text/plain; charset=utf-8");
+        res.setHeader("Transfer-Encoding", "chunked");
+        res.setHeader("Cache-Control", "no-cache");
+        res.setHeader("Connection", "keep-alive");
+
+        for await (const chunk of chatStream([
             {
                 role: "user",
                 content: message,
             },
-        ]);
+        ])) {
+            res.write(chunk);
+        }
 
-        res.json({
-            response,
-        });
-    } catch(err) {
+        res.end();
+    } catch (err) {
         console.error("AI request failed: ", err);
 
-        res.status(500).json({
-            error: "Failed to generate AI response",
-        });
+        if(!res.headersSent) {
+            res.status(500).json({
+                error: "Failed to generate AI response",
+            });
+        } else {
+            res.end();
+        }
     }
 });
 
