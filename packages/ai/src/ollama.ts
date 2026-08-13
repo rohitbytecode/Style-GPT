@@ -1,4 +1,3 @@
-import { read } from "node:fs";
 import { CSS_SYSTEM_PROMPT } from "./system-prompt.js";
 
 const OLLAMA_URL = "http://127.0.0.1:11434";
