@@ -1,73 +1,87 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react';
+
+import { ChatInput } from './components/ChatInput';
+import { ChatWindow } from './components/ChatWindow';
+import { SideBar } from './components/SideBar';
 import { useChat } from './hooks/useChat';
-import { ChatMessage } from './components/ChatMessage';
 
 function App() {
-  const [input, setInput] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const {
     messages,
     isStreaming,
     error,
     sendMessage,
-    clearChat,
+    clearChat
   } = useChat();
 
-  async function handleSubmit(
-    event: React.FormEvent<HTMLFormElement>,
-  ) {
-    event.preventDefault();
+  const chatTitle = useMemo(() => {
+    const firstUserMessage = messages.find(
+      (message) => message.role === "user",
+    );
 
-    const message = input.trim();
-
-    if (!message || isStreaming) {
-      return;
+    if(!firstUserMessage) {
+      return "";
     }
 
-    setInput("");
-    await sendMessage(message);
+    return firstUserMessage.content.length > 32
+      ? `${firstUserMessage.content.slice(0,32)}...`
+      : firstUserMessage.content;
+  }, [messages]);
+
+  function handleNewChat() {
+    clearChat();
   }
 
   return (
-    <main>
-      <h1>Style-GPT</h1>
-      
-        <button onClick={clearChat}>
-          Clear
-        </button>
+    <div className="app">
+      {sidebarOpen && (
+        <SideBar
+        chatTitle={chatTitle}
+        onNewChat={handleNewChat}
+        />
+      )}
 
-        <section>
-          {messages.map((message) => (
-          <ChatMessage
-            key={message.id}
-            message={message}
-          />
-        ))}
+      <main className="main">
+        <header className="topbar">
+          <button
+            className="menu-button"
+            onClick={() =>
+              setSidebarOpen((open) => !open)
+            }
+            aria-label="Toggle sidebar"
+            >☰
+            </button>
+
+            <div className="topbar-title">
+              {chatTitle || "New chat"}
+            </div>
+
+            <div className="topbar-status">
+              <span className="status-dot"/>
+              Online
+            </div>
+        </header>
+
+        <ChatWindow 
+          messages={messages}
+          isStreaming={isStreaming}
+        />
 
         {error && (
-          <p>
-            Error: {error}
-          </p>
+          <div className="error-message">
+            {error}
+          </div>
         )}
-        </section>
 
-        <form onSubmit={handleSubmit}>
-          <input
-            value={input}
-            onChange={(event) => setInput(event.target.value)}
-            placeholder="Ask Style-GPT..."
-            disabled={isStreaming}
-          />
-
-          <button
-            type="submit"
-            disabled={isStreaming || !input.trim()}
-          >
-            {isStreaming ? "Generating..." : "Send"}
-            </button>  
-        </form>
-    </main>
-  )
+        <ChatInput
+          isStreaming={isStreaming}
+          onSend={sendMessage}
+        />
+      </main>
+    </div>
+  );
 }
 
-export default App
+export default App;
