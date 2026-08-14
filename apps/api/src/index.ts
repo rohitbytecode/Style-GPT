@@ -1,46 +1,46 @@
-import express from "express";
+import express from 'express';
 import {
   chatStream,
   CSS_SYSTEM_PROMPT,
   STYLE_GPT_SELF_KNOWLEDGE_PROMPT,
   STYLE_GPT_PERSONAL_PREFERENCES_PROMPT,
   getIdentityResponse,
-} from "@style-gpt/ai";
-import cors from "cors";
+} from '@style-gpt/ai';
+import cors from 'cors';
 
 const app = express();
 const PORT = 7190;
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: 'http://localhost:5173',
   }),
 );
 app.use(express.json());
 
-app.get("/", (_req, res) => {
+app.get('/', (_req, res) => {
   res.json({
-    message: "Style GPT API",
-    status: "running",
+    message: 'Style GPT API',
+    status: 'running',
   });
 });
 
-app.get("/health", (_req, res) => {
+app.get('/health', (_req, res) => {
   res.json({
-    status: "ok",
-    service: "style-gpt-api",
+    status: 'ok',
+    service: 'style-gpt-api',
   });
 });
 
-app.post("/api/chat", async (req, res) => {
+app.post('/api/chat', async (req, res) => {
   try {
     const { message } = req.body as {
       message?: unknown;
     };
 
-    if (typeof message !== "string" || message.trim().length === 0) {
+    if (typeof message !== 'string' || message.trim().length === 0) {
       res.status(400).json({
-        error: "message must be a non-empty string",
+        error: 'message must be a non-empty string',
       });
       return;
     }
@@ -49,8 +49,8 @@ app.post("/api/chat", async (req, res) => {
 
     if (identityResponse) {
       res.status(200);
-      res.setHeader("Content-Type", "text/plain; charset=utf-8");
-      res.setHeader("Cache-Control", "no-cache");
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      res.setHeader('Cache-Control', 'no-cache');
 
       res.end(identityResponse);
 
@@ -58,26 +58,26 @@ app.post("/api/chat", async (req, res) => {
     }
 
     res.status(200);
-    res.setHeader("Content-Type", "text/plain; charset=utf-8");
-    res.setHeader("Transfer-Encoding", "chunked");
-    res.setHeader("Cache-Control", "no-cache");
-    res.setHeader("Connection", "keep-alive");
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Transfer-Encoding', 'chunked');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
 
     for await (const chunk of chatStream([
       {
-        role: "system",
+        role: 'system',
         content: CSS_SYSTEM_PROMPT,
       },
       {
-        role: "system",
+        role: 'system',
         content: STYLE_GPT_SELF_KNOWLEDGE_PROMPT,
       },
       {
-        role: "system",
+        role: 'system',
         content: STYLE_GPT_PERSONAL_PREFERENCES_PROMPT,
       },
       {
-        role: "user",
+        role: 'user',
         content: message,
       },
     ])) {
@@ -86,11 +86,11 @@ app.post("/api/chat", async (req, res) => {
 
     res.end();
   } catch (err) {
-    console.error("AI request failed: ", err);
+    console.error('AI request failed: ', err);
 
     if (!res.headersSent) {
       res.status(500).json({
-        error: "Failed to generate AI response",
+        error: 'Failed to generate AI response',
       });
     } else {
       res.end();

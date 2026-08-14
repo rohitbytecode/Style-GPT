@@ -24,7 +24,7 @@ export function SideBar({ chatTitle, onNewChat }: SideBarProps) {
 
         <button className="chat-history-item">
           <span className="history-icon">0</span>
-          <span>{chatTitle || "New conversation"}</span>
+          <span>{chatTitle || 'New conversation'}</span>
         </button>
       </div>
 

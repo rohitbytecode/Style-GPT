@@ -1,9 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo } from 'react';
 
-import { ChatInput } from "./components/ChatInput";
-import { ChatWindow } from "./components/ChatWindow";
-import { SideBar } from "./components/SideBar";
-import { useChat } from "./hooks/useChat";
+import { ChatInput } from './components/ChatInput';
+import { ChatWindow } from './components/ChatWindow';
+import { SideBar } from './components/SideBar';
+import { useChat } from './hooks/useChat';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -11,12 +11,10 @@ function App() {
   const { messages, isStreaming, error, sendMessage, clearChat } = useChat();
 
   const chatTitle = useMemo(() => {
-    const firstUserMessage = messages.find(
-      (message) => message.role === "user",
-    );
+    const firstUserMessage = messages.find((message) => message.role === 'user');
 
     if (!firstUserMessage) {
-      return "";
+      return '';
     }
 
     return firstUserMessage.content.length > 32
@@ -30,9 +28,7 @@ function App() {
 
   return (
     <div className="app">
-      {sidebarOpen && (
-        <SideBar chatTitle={chatTitle} onNewChat={handleNewChat} />
-      )}
+      {sidebarOpen && <SideBar chatTitle={chatTitle} onNewChat={handleNewChat} />}
 
       <main className="main">
         <header className="topbar">
@@ -44,7 +40,7 @@ function App() {
             ☰
           </button>
 
-          <div className="topbar-title">{chatTitle || "New chat"}</div>
+          <div className="topbar-title">{chatTitle || 'New chat'}</div>
 
           <div className="topbar-status">
             <span className="status-dot" />

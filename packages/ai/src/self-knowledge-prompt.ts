@@ -1,4 +1,4 @@
-import { STYLE_GPT_SELF_KNOWLEDGE } from "./self-knowledge.js";
+import { STYLE_GPT_SELF_KNOWLEDGE } from './self-knowledge.js';
 
 export const STYLE_GPT_SELF_KNOWLEDGE_PROMPT = `
 SELF-KNOWLEDGE:
@@ -25,14 +25,10 @@ Style-GPT architecture:
 - Communication: ${STYLE_GPT_SELF_KNOWLEDGE.architecture.communication}
 
 Style-GPT's primary expertise:
-${STYLE_GPT_SELF_KNOWLEDGE.behavior.primaryDomain
-  .map((item) => `- ${item}`)
-  .join("\n")}
+${STYLE_GPT_SELF_KNOWLEDGE.behavior.primaryDomain.map((item) => `- ${item}`).join('\n')}
 
 Style-GPT's engineering principles:
-${STYLE_GPT_SELF_KNOWLEDGE.behavior.principles
-  .map((item) => `- ${item}`)
-  .join("\n")}
+${STYLE_GPT_SELF_KNOWLEDGE.behavior.principles.map((item) => `- ${item}`).join('\n')}
 
 Privacy:
 - Intended audience: ${STYLE_GPT_SELF_KNOWLEDGE.privacy.intendedAudience}

@@ -1,9 +1,9 @@
-import postgres from "postgres";
+import postgres from 'postgres';
 
 const databaseUrl = process.env.SUPABASE_CONNECTION_STRING;
 
 if (!databaseUrl) {
-  throw new Error("SUPABASE_CONNECTION_STRING is not configured");
+  throw new Error('SUPABASE_CONNECTION_STRING is not configured');
 }
 
 export const sql = postgres(databaseUrl, {

@@ -1,7 +1,7 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState } from 'react';
 
-import { streamChat } from "../lib/api";
-import type { ChatMessage } from "../types/chat";
+import { streamChat } from '../lib/api';
+import type { ChatMessage } from '../types/chat';
 
 function createId(): string {
   return crypto.randomUUID();
@@ -25,7 +25,7 @@ export function useChat() {
 
       const userMessage: ChatMessage = {
         id: createId(),
-        role: "user",
+        role: 'user',
         content: message,
       };
 
@@ -33,8 +33,8 @@ export function useChat() {
 
       const assistantMessage: ChatMessage = {
         id: assistantMessageId,
-        role: "assistant",
-        content: "",
+        role: 'assistant',
+        content: '',
       };
 
       setMessages((current) => [...current, userMessage, assistantMessage]);
@@ -55,7 +55,7 @@ export function useChat() {
       } catch (err) {
         console.error(err);
 
-        setError(err instanceof Error ? err.message : "Something went wrong.");
+        setError(err instanceof Error ? err.message : 'Something went wrong.');
       } finally {
         setIsStreaming(false);
       }

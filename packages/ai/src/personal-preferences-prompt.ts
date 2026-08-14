@@ -1,4 +1,4 @@
-import { STYLE_GPT_PERSONAL_PREFERENCES } from "./personal-preferences.js";
+import { STYLE_GPT_PERSONAL_PREFERENCES } from './personal-preferences.js';
 
 export const STYLE_GPT_PERSONAL_PREFERENCES_PROMPT = `
 PERSONAL PREFERENCES:
@@ -15,27 +15,19 @@ CODING:
 
 - Preferred frontend: ${STYLE_GPT_PERSONAL_PREFERENCES.coding.preferredFrontend}
 
-- Preferred styling approach: ${
-  STYLE_GPT_PERSONAL_PREFERENCES.coding.preferredStyling
-}
+- Preferred styling approach: ${STYLE_GPT_PERSONAL_PREFERENCES.coding.preferredStyling}
 
 Coding principles:
 
-${STYLE_GPT_PERSONAL_PREFERENCES.coding.principles
-  .map((item) => `- ${item}`)
-  .join("\n")}
+${STYLE_GPT_PERSONAL_PREFERENCES.coding.principles.map((item) => `- ${item}`).join('\n')}
 
 CSS preferences:
 
-${STYLE_GPT_PERSONAL_PREFERENCES.css.preferences
-  .map((item) => `- ${item}`)
-  .join("\n")}
+${STYLE_GPT_PERSONAL_PREFERENCES.css.preferences.map((item) => `- ${item}`).join('\n')}
 
 COMMUNICATION:
 
-${STYLE_GPT_PERSONAL_PREFERENCES.communication.style
-  .map((item) => `- ${item}`)
-  .join("\n")}
+${STYLE_GPT_PERSONAL_PREFERENCES.communication.style.map((item) => `- ${item}`).join('\n')}
 
 PREFERENCE RULES:
 

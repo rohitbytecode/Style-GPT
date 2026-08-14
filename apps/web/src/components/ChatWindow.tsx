@@ -1,7 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
-import { ChatMessage } from "./ChatMessage";
-import type { ChatMessage as ChatMessageType } from "../types/chat";
+import { ChatMessage } from './ChatMessage';
+import type { ChatMessage as ChatMessageType } from '../types/chat';
 
 interface ChatWindowProps {
   messages: ChatMessageType[];
@@ -13,7 +13,7 @@ export function ChatWindow({ messages, isStreaming }: ChatWindowProps) {
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({
-      behavior: "smooth",
+      behavior: 'smooth',
     });
   }, [messages]);
 

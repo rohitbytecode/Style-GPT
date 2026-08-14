@@ -1,10 +1,10 @@
-import { CSS_SYSTEM_PROMPT } from "./system-prompt.js";
+import { CSS_SYSTEM_PROMPT } from './system-prompt.js';
 
-const OLLAMA_URL = "http://127.0.0.1:11434";
-const MODEL = "qwen2.5-coder:1.5b";
+const OLLAMA_URL = 'http://127.0.0.1:11434';
+const MODEL = 'qwen2.5-coder:1.5b';
 
 export interface ChatMessage {
-  role: "system" | "user" | "assistant";
+  role: 'system' | 'user' | 'assistant';
   content: string;
 }
 
@@ -16,19 +16,17 @@ interface OllamaStreamChunk {
   done?: boolean;
 }
 
-export async function* chatStream(
-  messages: ChatMessage[],
-): AsyncGenerator<string> {
+export async function* chatStream(messages: ChatMessage[]): AsyncGenerator<string> {
   const response = await fetch(`${OLLAMA_URL}/api/chat`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       model: MODEL,
       messages: [
         {
-          role: "system",
+          role: 'system',
           content: CSS_SYSTEM_PROMPT,
         },
         ...messages,
@@ -43,19 +41,17 @@ export async function* chatStream(
   });
 
   if (!response.ok) {
-    throw new Error(
-      `Ollama request failed: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Ollama request failed: ${response.status} ${response.statusText}`);
   }
 
   if (!response.body) {
-    throw new Error("Ollama response has no body");
+    throw new Error('Ollama response has no body');
   }
 
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
 
-  let buffer = "";
+  let buffer = '';
 
   try {
     while (true) {
@@ -67,9 +63,9 @@ export async function* chatStream(
 
       buffer += decoder.decode(value, { stream: true });
 
-      const lines = buffer.split("\n");
+      const lines = buffer.split('\n');
 
-      buffer = lines.pop() ?? "";
+      buffer = lines.pop() ?? '';
 
       for (const line of lines) {
         if (!line.trim()) {

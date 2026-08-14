@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 interface ChatInputProps {
   isStreaming: boolean;
@@ -6,7 +6,7 @@ interface ChatInputProps {
 }
 
 export function ChatInput({ isStreaming, onSend }: ChatInputProps) {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
 
   async function handleSubmit() {
     const message = value.trim();
@@ -15,12 +15,12 @@ export function ChatInput({ isStreaming, onSend }: ChatInputProps) {
       return;
     }
 
-    setValue("");
+    setValue('');
     await onSend(message);
   }
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
-    if (event.key === "Enter" && !event.shiftKey) {
+    if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
       void handleSubmit();
     }
@@ -47,9 +47,7 @@ export function ChatInput({ isStreaming, onSend }: ChatInputProps) {
           ^
         </button>
       </div>
-      <div className="composer-hint">
-        Enter to send . Shift + Enter for new line
-      </div>
+      <div className="composer-hint">Enter to send . Shift + Enter for new line</div>
     </div>
   );
 }

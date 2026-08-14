@@ -1,13 +1,10 @@
-const API_URL = "http://localhost:7190";
+const API_URL = 'http://localhost:7190';
 
-export async function streamChat(
-  message: string,
-  onChunk: (chunk: string) => void,
-): Promise<void> {
+export async function streamChat(message: string, onChunk: (chunk: string) => void): Promise<void> {
   const response = await fetch(`${API_URL}/api/chat`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ message }),
   });
@@ -17,7 +14,7 @@ export async function streamChat(
   }
 
   if (!response.body) {
-    throw new Error("API response has no body");
+    throw new Error('API response has no body');
   }
 
   const reader = response.body.getReader();
