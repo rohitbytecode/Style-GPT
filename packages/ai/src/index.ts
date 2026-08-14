@@ -7,3 +7,11 @@ export {
     STYLE_GPT_IDENTITY,
     getIdentityResponse,
 } from "./identity.js";
+
+export {
+    STYLE_GPT_SELF_KNOWLEDGE,
+} from "./self-knowledge.js";
+
+export {
+    STYLE_GPT_SELF_KNOWLEDGE_PROMPT,
+} from "./self-knowledge-prompt.js";
