@@ -9,6 +9,8 @@
   },
   "main": "index.js",
   "scripts": {
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

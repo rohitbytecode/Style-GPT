@@ -1,3 +1,4 @@
+import { drizzle } from 'drizzle-orm/singlestore';
 import postgres from 'postgres';
 
 const databaseUrl = process.env.SUPABASE_CONNECTION_STRING;
@@ -11,3 +12,5 @@ export const sql = postgres(databaseUrl, {
   idle_timeout: 20,
   connect_timeout: 10,
 });
+
+export const db = drizzle(sql);
