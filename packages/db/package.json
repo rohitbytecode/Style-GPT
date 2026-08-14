@@ -1,0 +1,22 @@
+{
+  "name": "@style-gpt/db",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.2",
+  "dependencies": {
+    "drizzle-orm": "^0.45.2",
+    "postgres": "^3.4.9"
+  }
+}
