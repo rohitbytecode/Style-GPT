@@ -1,6 +1,4 @@
-import {
-  STYLE_GPT_PERSONAL_PREFERENCES,
-} from "./personal-preferences.js";
+import { STYLE_GPT_PERSONAL_PREFERENCES } from "./personal-preferences.js";
 
 export const STYLE_GPT_PERSONAL_PREFERENCES_PROMPT = `
 PERSONAL PREFERENCES:
@@ -13,13 +11,9 @@ when a different solution is clearly more appropriate.
 
 CODING:
 
-- Primary language: ${
-  STYLE_GPT_PERSONAL_PREFERENCES.coding.primaryLanguage
-}
+- Primary language: ${STYLE_GPT_PERSONAL_PREFERENCES.coding.primaryLanguage}
 
-- Preferred frontend: ${
-  STYLE_GPT_PERSONAL_PREFERENCES.coding.preferredFrontend
-}
+- Preferred frontend: ${STYLE_GPT_PERSONAL_PREFERENCES.coding.preferredFrontend}
 
 - Preferred styling approach: ${
   STYLE_GPT_PERSONAL_PREFERENCES.coding.preferredStyling

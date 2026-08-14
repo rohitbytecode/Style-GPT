@@ -372,11 +372,7 @@ button {
 
   color: #dfe3ea;
 
-  font-family:
-    "Cascadia Code",
-    "JetBrains Mono",
-    Consolas,
-    monospace;
+  font-family: "Cascadia Code", "JetBrains Mono", Consolas, monospace;
 
   font-size: 0.88em;
 }
@@ -583,8 +579,7 @@ button {
 
   background: #15181d;
 
-  box-shadow:
-    0 8px 30px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
 }
 
 .composer:focus-within {

@@ -1,6 +1,4 @@
-import {
-  STYLE_GPT_SELF_KNOWLEDGE,
-} from "./self-knowledge.js";
+import { STYLE_GPT_SELF_KNOWLEDGE } from "./self-knowledge.js";
 
 export const STYLE_GPT_SELF_KNOWLEDGE_PROMPT = `
 SELF-KNOWLEDGE:
