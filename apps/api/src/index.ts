@@ -1,5 +1,5 @@
 import express from 'express';
-import { chatStream, CSS_SYSTEM_PROMPT } from "@style-gpt/ai";
+import { chatStream, CSS_SYSTEM_PROMPT, getIdentityResponse } from "@style-gpt/ai";
 import cors from "cors";
 
 const app = express();
@@ -36,6 +36,24 @@ app.post("/api/chat", async (req, res) => {
             res.status(400).json({
                 error: "message must be a non-empty string",
             });
+            return;
+        }
+
+        const identityResponse = getIdentityResponse(message);
+
+        if(identityResponse) {
+            res.status(200);
+            res.setHeader(
+                "Content-Type",
+                "text/plain; charset=utf-8",
+            );
+            res.setHeader(
+                "Cache-Control",
+                "no-cache",
+            );
+
+            res.end(identityResponse);
+
             return;
         }
 
