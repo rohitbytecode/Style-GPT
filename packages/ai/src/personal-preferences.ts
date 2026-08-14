@@ -4,7 +4,8 @@ export const STYLE_GPT_PERSONAL_PREFERENCES = {
 
     preferredFrontend: 'React',
 
-    preferredStyling: 'Plain CSS unless another technology is explicitly requested',
+    preferredStyling:
+      'Plain CSS unless another technology is explicitly requested',
 
     principles: [
       'Prefer simple solutions over unnecessary abstraction.',

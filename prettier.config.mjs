@@ -1,51 +1,46 @@
 /** @type {import("prettier").Config} */
 const config = {
   // Core formatting
-  printWidth: 100,
+  printWidth: 80,
   tabWidth: 2,
   useTabs: false,
   semi: true,
   singleQuote: true,
-  quoteProps: "as-needed",
+  quoteProps: 'as-needed',
 
   jsxSingleQuote: false,
 
-  trailingComma: "all",
+  trailingComma: 'all',
 
   bracketSpacing: true,
   bracketSameLine: false,
-  arrowParens: "always",
+  arrowParens: 'always',
 
-  endOfLine: "lf",
+  endOfLine: 'lf',
 
   overrides: [
     {
-      files: ["*.json", "*.jsonc"],
+      files: ['*.json', '*.jsonc'],
       options: {
         printWidth: 80,
         tabWidth: 2,
       },
     },
     {
-      files: ["*.md"],
+      files: ['*.md'],
       options: {
         printWidth: 80,
-        proseWrap: "always",
+        proseWrap: 'always',
       },
     },
     {
-      files: ["*.css"],
+      files: ['*.css'],
       options: {
         singleQuote: false,
       },
     },
     {
-      files: [
-        "*.config.ts",
-        "*.config.js",
-        "vite.config.ts",
-        "drizzle.config.ts",
-      ],
+      files: ['*.config.ts', '*.config.js', 'vite.config.ts', 'drizzle.config.ts'],
       options: {
         printWidth: 80,
       },

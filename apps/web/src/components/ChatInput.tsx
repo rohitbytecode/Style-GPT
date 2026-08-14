@@ -47,7 +47,9 @@ export function ChatInput({ isStreaming, onSend }: ChatInputProps) {
           ^
         </button>
       </div>
-      <div className="composer-hint">Enter to send . Shift + Enter for new line</div>
+      <div className="composer-hint">
+        Enter to send . Shift + Enter for new line
+      </div>
     </div>
   );
 }

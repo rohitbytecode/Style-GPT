@@ -1,6 +1,9 @@
 const API_URL = 'http://localhost:7190';
 
-export async function streamChat(message: string, onChunk: (chunk: string) => void): Promise<void> {
+export async function streamChat(
+  message: string,
+  onChunk: (chunk: string) => void,
+): Promise<void> {
   const response = await fetch(`${API_URL}/api/chat`, {
     method: 'POST',
     headers: {

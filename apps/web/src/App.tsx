@@ -11,7 +11,9 @@ function App() {
   const { messages, isStreaming, error, sendMessage, clearChat } = useChat();
 
   const chatTitle = useMemo(() => {
-    const firstUserMessage = messages.find((message) => message.role === 'user');
+    const firstUserMessage = messages.find(
+      (message) => message.role === 'user',
+    );
 
     if (!firstUserMessage) {
       return '';
@@ -28,7 +30,9 @@ function App() {
 
   return (
     <div className="app">
-      {sidebarOpen && <SideBar chatTitle={chatTitle} onNewChat={handleNewChat} />}
+      {sidebarOpen && (
+        <SideBar chatTitle={chatTitle} onNewChat={handleNewChat} />
+      )}
 
       <main className="main">
         <header className="topbar">

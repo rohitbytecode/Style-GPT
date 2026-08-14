@@ -16,7 +16,9 @@ interface OllamaStreamChunk {
   done?: boolean;
 }
 
-export async function* chatStream(messages: ChatMessage[]): AsyncGenerator<string> {
+export async function* chatStream(
+  messages: ChatMessage[],
+): AsyncGenerator<string> {
   const response = await fetch(`${OLLAMA_URL}/api/chat`, {
     method: 'POST',
     headers: {
@@ -41,7 +43,9 @@ export async function* chatStream(messages: ChatMessage[]): AsyncGenerator<strin
   });
 
   if (!response.ok) {
-    throw new Error(`Ollama request failed: ${response.status} ${response.statusText}`);
+    throw new Error(
+      `Ollama request failed: ${response.status} ${response.statusText}`,
+    );
   }
 
   if (!response.body) {

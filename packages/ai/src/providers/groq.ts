@@ -11,7 +11,9 @@ export interface ChatMessage {
   content: string;
 }
 
-export async function* chatStream(messages: ChatMessage[]): AsyncGenerator<string> {
+export async function* chatStream(
+  messages: ChatMessage[],
+): AsyncGenerator<string> {
   const stream = await client.chat.completions.create({
     model: MODEL,
     messages,

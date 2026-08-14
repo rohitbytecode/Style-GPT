@@ -20,7 +20,9 @@ export function ChatMessage({ message }: ChatMessageProps) {
           {isUser ? (
             <p>{message.content}</p>
           ) : (
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {message.content}
+            </ReactMarkdown>
           )}
         </div>
       </div>
