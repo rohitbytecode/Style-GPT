@@ -15,3 +15,11 @@ export {
 export {
     STYLE_GPT_SELF_KNOWLEDGE_PROMPT,
 } from "./self-knowledge-prompt.js";
+
+export {
+    STYLE_GPT_PERSONAL_PREFERENCES,
+} from "./personal-preferences.js";
+
+export {
+  STYLE_GPT_PERSONAL_PREFERENCES_PROMPT,
+} from "./personal-preferences-prompt.js";

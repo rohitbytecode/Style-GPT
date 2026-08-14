@@ -1,5 +1,5 @@
 import express from 'express';
-import { chatStream, CSS_SYSTEM_PROMPT, STYLE_GPT_SELF_KNOWLEDGE_PROMPT, getIdentityResponse } from "@style-gpt/ai";
+import { chatStream, CSS_SYSTEM_PROMPT, STYLE_GPT_SELF_KNOWLEDGE_PROMPT, STYLE_GPT_PERSONAL_PREFERENCES_PROMPT ,getIdentityResponse } from "@style-gpt/ai";
 import cors from "cors";
 
 const app = express();
@@ -71,6 +71,10 @@ app.post("/api/chat", async (req, res) => {
             {
                 role: "system",
                 content: STYLE_GPT_SELF_KNOWLEDGE_PROMPT,
+            },
+            {
+                role: "system",
+                content: STYLE_GPT_PERSONAL_PREFERENCES_PROMPT,
             },
             {
                 role: "user",
