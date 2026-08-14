@@ -9,6 +9,7 @@
   },
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -18,5 +19,9 @@
   "dependencies": {
     "drizzle-orm": "^0.45.2",
     "postgres": "^3.4.9"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "drizzle-kit": "^0.31.10"
   }
 }

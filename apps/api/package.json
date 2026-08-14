@@ -4,12 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "node --env-file=.env --import tsx src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js"
   },
   "dependencies": {
     "@style-gpt/ai": "workspace:*",
+    "@style-gpt/db": "workspace:*",
     "cors": "^2.8.6",
     "express": "^5.2.1"
   },
