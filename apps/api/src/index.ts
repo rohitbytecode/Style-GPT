@@ -13,6 +13,7 @@ import {
   addMessage,
   getConversationHistory,
 } from './services/conversation.service.js';
+import conversationRouter from './routes/conversation.routes.js';
 
 const app = express();
 const PORT = 7190;
@@ -24,6 +25,8 @@ app.use(
   }),
 );
 app.use(express.json());
+
+app.use('/api/conversations', conversationRouter);
 
 app.get('/', (_req, res) => {
   res.json({
