@@ -1,6 +1,10 @@
-import { useCallback, useState } from 'react';
-
-import { streamChat } from '../lib/api';
+import { useCallback, useState, useEffect } from 'react';
+import {
+  createConversation,
+  getConversationMessages,
+  listConversations,
+  streamChat,
+} from '../lib/api';
 import type { ChatMessage } from '../types/chat';
 
 function createId(): string {
@@ -14,6 +18,43 @@ export function useChat() {
   );
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function loadLatestConversation() {
+      try {
+        setError(null);
+
+        const conversations = await listConversations();
+
+        if (conversations.length === 0) {
+          return;
+        }
+
+        const latestConversation = conversations[0];
+
+        setConversationId(latestConversation.id);
+
+        const storedMessages = await getConversationMessages(
+          latestConversation.id,
+        );
+
+        setMessages(
+          storedMessages.map((message) => ({
+            id: message.id,
+            role: message.role,
+            content: message.content,
+          })),
+        );
+      } catch (err) {
+        console.error(err);
+
+        setError(
+          err instanceof Error ? err.message : 'Failed to load conversation.',
+        );
+      }
+    }
+    void loadLatestConversation();
+  }, []);
 
   const sendMessage = useCallback(
     async (content: string) => {
@@ -71,17 +112,31 @@ export function useChat() {
     [isStreaming, conversationId],
   );
 
-  const clearChat = useCallback(() => {
-    setMessages([]);
-    setConversationId(undefined);
-    setError(null);
+  const newChat = useCallback(async () => {
+    try {
+      setError(null);
+
+      const conversation = await createConversation();
+
+      setConversationId(conversation.id);
+      setMessages([]);
+    } catch (err) {
+      console.error(err);
+
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Failed to create a new conversation.',
+      );
+    }
   }, []);
 
   return {
     messages,
+    conversationId,
     isStreaming,
     error,
     sendMessage,
-    clearChat,
+    newChat,
   };
 }

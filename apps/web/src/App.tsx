@@ -8,7 +8,7 @@ import { useChat } from './hooks/useChat';
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const { messages, isStreaming, error, sendMessage, clearChat } = useChat();
+  const { messages, isStreaming, error, sendMessage, newChat } = useChat();
 
   const chatTitle = useMemo(() => {
     const firstUserMessage = messages.find(
@@ -25,7 +25,7 @@ function App() {
   }, [messages]);
 
   function handleNewChat() {
-    clearChat();
+    newChat();
   }
 
   return (
