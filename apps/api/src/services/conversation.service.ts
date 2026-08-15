@@ -68,3 +68,21 @@ export async function deleteConversation(conversationId: string) {
 
   return result.length > 0;
 }
+
+export async function getConversationHistory(conversationId: string) {
+  const rows = await getMessages(conversationId);
+
+  return rows.map((message) => ({
+    role: message.role,
+    content: message.content,
+  }));
+}
+
+// This service is exposing following functions:
+// createConversation()
+// getConversation()
+// listConversations()
+// addMessage()
+// getMessages()
+// getConversationHistory()
+// deleteConversation()
