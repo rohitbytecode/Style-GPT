@@ -1,16 +1,11 @@
 import { useCallback, useState, useEffect } from 'react';
 import {
-  createConversation,
   deleteConversation,
   getConversationMessages,
   listConversations,
   streamChat,
 } from '../lib/api';
-import { Conversation, type ChatMessage } from '../types/chat';
-
-function createId(): string {
-  return crypto.randomUUID();
-}
+import { type Conversation, type ChatMessage } from '../types/chat';
 
 export function useChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -22,23 +17,26 @@ export function useChat() {
   const [conversations, setConversations] = useState<Conversation[]>([]);
 
   useEffect(() => {
-    async function loadLatestConversation() {
+    async function loadConversations() {
       try {
         setError(null);
 
-        const conversations = await listConversations();
+        const data = await listConversations();
 
-        if (conversations.length === 0) {
+        setConversations(data);
+
+        if (data.length === 0) {
+          setConversationId(undefined);
+          setMessages([]);
+
           return;
         }
 
-        const latestConversation = conversations[0];
+        const latest = data[0];
 
-        setConversationId(latestConversation.id);
+        setConversationId(latest.id);
 
-        const storedMessages = await getConversationMessages(
-          latestConversation.id,
-        );
+        const storedMessages = await getConversationMessages(latest.id);
 
         setMessages(
           storedMessages.map((message) => ({
@@ -51,11 +49,12 @@ export function useChat() {
         console.error(err);
 
         setError(
-          err instanceof Error ? err.message : 'Failed to load conversation.',
+          err instanceof Error ? err.message : 'Failed to load conversations.',
         );
       }
     }
-    void loadLatestConversation();
+
+    void loadConversations();
   }, []);
 
   const sendMessage = useCallback(
@@ -70,12 +69,12 @@ export function useChat() {
       setIsStreaming(true);
 
       const userMessage: ChatMessage = {
-        id: createId(),
+        id: crypto.randomUUID(),
         role: 'user',
         content: message,
       };
 
-      const assistantMessageId = createId();
+      const assistantMessageId = crypto.randomUUID();
 
       const assistantMessage: ChatMessage = {
         id: assistantMessageId,
@@ -93,16 +92,17 @@ export function useChat() {
             setMessages((current) =>
               current.map((item) =>
                 item.id === assistantMessageId
-                  ? {
-                      ...item,
-                      content: item.content + chunk,
-                    }
+                  ? { ...item, content: item.content + chunk }
                   : item,
               ),
             );
           },
           (id) => setConversationId(id),
         );
+
+        const updatedConversations = await listConversations();
+
+        setConversations(updatedConversations);
       } catch (err) {
         console.error(err);
 
@@ -114,24 +114,44 @@ export function useChat() {
     [isStreaming, conversationId],
   );
 
-  const newChat = useCallback(async () => {
-    try {
-      setError(null);
+  function newChat() {
+    if (isStreaming) return;
 
-      const conversation = await createConversation();
+    setError(null);
+    setConversationId(undefined);
+    setMessages([]);
+  }
 
-      setConversationId(conversation.id);
-      setMessages([]);
-    } catch (err) {
-      console.error(err);
+  const selectConversation = useCallback(
+    async (id: string) => {
+      if (id === conversationId || isStreaming) {
+        return;
+      }
 
-      setError(
-        err instanceof Error
-          ? err.message
-          : 'Failed to create a new conversation.',
-      );
-    }
-  }, []);
+      try {
+        setError(null);
+
+        const storedMessages = await getConversationMessages(id);
+
+        setConversationId(id);
+
+        setMessages(
+          storedMessages.map((message) => ({
+            id: message.id,
+            role: message.role,
+            content: message.content,
+          })),
+        );
+      } catch (err) {
+        console.error(err);
+
+        setError(
+          err instanceof Error ? err.message : 'Failed to load conversation.',
+        );
+      }
+    },
+    [conversationId, isStreaming],
+  );
 
   const removeConversation = useCallback(
     async (id: string) => {
@@ -140,20 +160,53 @@ export function useChat() {
 
         await deleteConversation(id);
 
-        setConversations((current) =>
-          current.filter(
-            (conversation) => conversation.id !==id,
-          ))
+        setConversations((prev) => {
+          const remaining = prev.filter((c) => c.id !== id);
+
+          if (conversationId === id) {
+            if (remaining.length > 0) {
+              const next = remaining[0];
+              setConversationId(next.id);
+
+              getConversationMessages(next.id)
+                .then((msgs) => {
+                  setMessages(
+                    msgs.map((m) => ({
+                      id: m.id,
+                      role: m.role,
+                      content: m.content,
+                    })),
+                  );
+                })
+                .catch(console.error);
+            } else {
+              setConversationId(undefined);
+              setMessages([]);
+            }
+          }
+
+          return remaining;
+        });
+      } catch (err) {
+        console.error(err);
+
+        setError(
+          err instanceof Error ? err.message : 'Failed to delete conversation.',
+        );
       }
-    }
-  )
+    },
+    [conversationId],
+  );
 
   return {
+    conversations,
     messages,
     conversationId,
     isStreaming,
     error,
     sendMessage,
     newChat,
+    removeConversation,
+    selectConversation,
   };
 }

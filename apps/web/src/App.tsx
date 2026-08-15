@@ -8,30 +8,38 @@ import { useChat } from './hooks/useChat';
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const { messages, isStreaming, error, sendMessage, newChat } = useChat();
+  const {
+    conversations,
+    conversationId,
+    messages,
+    isStreaming,
+    error,
+    sendMessage,
+    newChat,
+    selectConversation,
+    removeConversation,
+  } = useChat();
 
   const chatTitle = useMemo(() => {
-    const firstUserMessage = messages.find(
-      (message) => message.role === 'user',
-    );
+    const firstUserMessage = messages.find((m) => m.role === 'user');
 
-    if (!firstUserMessage) {
-      return '';
-    }
+    if (!firstUserMessage) return '';
 
     return firstUserMessage.content.length > 32
       ? `${firstUserMessage.content.slice(0, 32)}...`
       : firstUserMessage.content;
   }, [messages]);
 
-  function handleNewChat() {
-    newChat();
-  }
-
   return (
     <div className="app">
       {sidebarOpen && (
-        <SideBar chatTitle={chatTitle} onNewChat={handleNewChat} />
+        <SideBar
+          conversations={conversations}
+          activeConversationId={conversationId}
+          onNewChat={newChat}
+          onSelectConversation={selectConversation}
+          onDeleteConversation={removeConversation}
+        />
       )}
 
       <main className="main">
