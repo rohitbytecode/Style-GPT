@@ -44,7 +44,7 @@ export function ChatInput({ isStreaming, onSend }: ChatInputProps) {
           disabled={isStreaming || !value.trim()}
           aria-label="Send message"
         >
-          ^
+          ↑
         </button>
       </div>
       <div className="composer-hint">
