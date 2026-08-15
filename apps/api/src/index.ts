@@ -85,6 +85,8 @@ app.post('/api/chat', async (req, res) => {
       conversation = await createConversation(userMessage.slice(0, 60));
     }
 
+    res.setHeader('X-Conversation-Id', conversation.id);
+
     // Save user message
 
     await addMessage(conversation.id, 'user', userMessage);
