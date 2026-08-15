@@ -1,11 +1,12 @@
 import { useCallback, useState, useEffect } from 'react';
 import {
   createConversation,
+  deleteConversation,
   getConversationMessages,
   listConversations,
   streamChat,
 } from '../lib/api';
-import type { ChatMessage } from '../types/chat';
+import { Conversation, type ChatMessage } from '../types/chat';
 
 function createId(): string {
   return crypto.randomUUID();
@@ -18,6 +19,7 @@ export function useChat() {
   );
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
 
   useEffect(() => {
     async function loadLatestConversation() {
@@ -130,6 +132,21 @@ export function useChat() {
       );
     }
   }, []);
+
+  const removeConversation = useCallback(
+    async (id: string) => {
+      try {
+        setError(null);
+
+        await deleteConversation(id);
+
+        setConversations((current) =>
+          current.filter(
+            (conversation) => conversation.id !==id,
+          ))
+      }
+    }
+  )
 
   return {
     messages,
