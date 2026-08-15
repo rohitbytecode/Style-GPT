@@ -72,6 +72,10 @@ router.get('/:id', async (req, res) => {
     res.json(conversation);
   } catch (error) {
     console.error('Get conversation failed:', error);
+
+    res.status(500).json({
+      error: 'Failed to get conversation',
+    });
   }
 });
 
