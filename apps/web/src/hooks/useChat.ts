@@ -9,6 +9,9 @@ function createId(): string {
 
 export function useChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [conversationId, setConversationId] = useState<string | undefined>(
+    undefined,
+  );
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -40,18 +43,23 @@ export function useChat() {
       setMessages((current) => [...current, userMessage, assistantMessage]);
 
       try {
-        await streamChat(message, (chunk) => {
-          setMessages((current) =>
-            current.map((item) =>
-              item.id === assistantMessageId
-                ? {
-                    ...item,
-                    content: item.content + chunk,
-                  }
-                : item,
-            ),
-          );
-        });
+        await streamChat(
+          message,
+          conversationId,
+          (chunk) => {
+            setMessages((current) =>
+              current.map((item) =>
+                item.id === assistantMessageId
+                  ? {
+                      ...item,
+                      content: item.content + chunk,
+                    }
+                  : item,
+              ),
+            );
+          },
+          (id) => setConversationId(id),
+        );
       } catch (err) {
         console.error(err);
 
@@ -60,11 +68,12 @@ export function useChat() {
         setIsStreaming(false);
       }
     },
-    [isStreaming],
+    [isStreaming, conversationId],
   );
 
   const clearChat = useCallback(() => {
     setMessages([]);
+    setConversationId(undefined);
     setError(null);
   }, []);
 
