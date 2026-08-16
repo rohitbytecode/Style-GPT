@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
 :root {
   --bg-base: #09090b;
   --bg-surface: #0f1012;
@@ -44,13 +42,8 @@ body,
 }
 
 body {
-  overflow: hidden;
   background: var(--bg-base);
 }
-
-/* ------------------------------
-   Reset
--------------------------------- */
 
 button,
 textarea {
@@ -61,16 +54,24 @@ button {
   border: 0;
 }
 
+button:focus-visible,
+.menu-button:focus-visible,
+.send-button:focus-visible,
+.suggestions button:focus-visible,
+.chat-history-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .app {
   display: flex;
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
+  min-height: 100vh;
   background: var(--bg-base);
 }
 
-/* ------------------------------
-   Sidebar
--------------------------------- */
+/* ── Sidebar ── */
 
 .sidebar {
   display: flex;
@@ -81,6 +82,12 @@ button {
   background: var(--bg-surface);
   border-right: 1px solid var(--border-subtle);
   flex-shrink: 0;
+  margin-left: -260px;
+  transition: margin-left 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar.open {
+  margin-left: 0;
 }
 
 .sidebar-header {
@@ -107,6 +114,12 @@ button {
   color: #fff;
   font-size: 13px;
   font-weight: 800;
+  animation: brand-glow 3s ease-in-out infinite;
+}
+
+@keyframes brand-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(124, 124, 248, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(124, 124, 248, 0.45); }
 }
 
 .new-chat {
@@ -122,7 +135,9 @@ button {
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease,
+              color 0.15s ease,
+              border-color 0.15s ease;
 }
 
 .new-chat:hover {
@@ -136,8 +151,6 @@ button {
   line-height: 1;
   color: var(--text-muted);
 }
-
-/* History */
 
 .sidebar-section {
   margin-top: 24px;
@@ -194,7 +207,8 @@ button {
   font-size: 13px;
   text-align: left;
   cursor: pointer;
-  transition: all 0.12s ease;
+  transition: background-color 0.12s ease,
+              color 0.12s ease;
 }
 
 .chat-history-item:hover {
@@ -234,7 +248,9 @@ button {
   cursor: pointer;
   opacity: 0;
   flex-shrink: 0;
-  transition: all 0.12s ease;
+  transition: opacity 0.12s ease,
+              background-color 0.12s ease,
+              color 0.12s ease;
 }
 
 .chat-history-item:hover .chat-history-delete {
@@ -245,8 +261,6 @@ button {
   background: rgba(239, 107, 107, 0.1);
   color: var(--red);
 }
-
-/* Footer */
 
 .sidebar-footer {
   margin-top: auto;
@@ -278,9 +292,11 @@ button {
   font-size: 11px;
 }
 
-/* ------------------------------
-   Main
--------------------------------- */
+.sidebar-backdrop {
+  display: none;
+}
+
+/* ── Main ── */
 
 .main {
   display: flex;
@@ -301,7 +317,8 @@ button {
 }
 
 .menu-button {
-  display: none;
+  display: grid;
+  place-items: center;
   width: 32px;
   height: 32px;
   border-radius: 7px;
@@ -309,7 +326,8 @@ button {
   color: var(--text-secondary);
   font-size: 16px;
   cursor: pointer;
-  transition: background 0.12s ease;
+  margin-right: 8px;
+  transition: background-color 0.12s ease;
 }
 
 .menu-button:hover {
@@ -335,9 +353,7 @@ button {
   font-weight: 500;
 }
 
-/* ------------------------------
-   Chat messages
--------------------------------- */
+/* ── Chat messages ── */
 
 .chat-window {
   min-height: 0;
@@ -368,10 +384,22 @@ button {
   display: flex;
   gap: 14px;
   padding: 20px 0;
+  animation: message-in 0.35s ease-out both;
 }
 
-.chat-message + .chat-message {
+.chat-message:not(:first-of-type) {
   border-top: 1px solid var(--border-subtle);
+}
+
+@keyframes message-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .message-avatar {
@@ -427,17 +455,9 @@ button {
   line-height: 1.4;
 }
 
-.message-content h1 {
-  font-size: 20px;
-}
-
-.message-content h2 {
-  font-size: 17px;
-}
-
-.message-content h3 {
-  font-size: 15px;
-}
+.message-content h1 { font-size: 20px; }
+.message-content h2 { font-size: 17px; }
+.message-content h3 { font-size: 15px; }
 
 .message-content ul,
 .message-content ol {
@@ -459,7 +479,7 @@ button {
   border-radius: 5px;
   background: var(--bg-raised);
   border: 1px solid var(--border-subtle);
-  color: var(--text-primary);
+  color: #e2b0ff;
   font-family: 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
   font-size: 0.85em;
 }
@@ -467,19 +487,19 @@ button {
 .message-content pre {
   overflow-x: auto;
   margin: 14px 0;
-  padding: 14px 16px;
+  padding: 0;
   border: 1px solid var(--border-default);
   border-radius: 10px;
   background: var(--bg-surface);
 }
 
 .message-content pre code {
-  display: block;
-  padding: 0;
   background: transparent;
   border: 0;
-  font-size: 13px;
-  line-height: 1.7;
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  padding: 0;
 }
 
 .message-content table {
@@ -519,9 +539,99 @@ button {
   text-decoration: underline;
 }
 
-/* ------------------------------
-   Empty state
--------------------------------- */
+/* ── Code block ── */
+
+.code-block {
+  margin: 14px 0;
+  border: 1px solid var(--border-default);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg-surface);
+}
+
+.code-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: var(--bg-raised);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.code-block-lang {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.code-copy-btn {
+  padding: 3px 10px;
+  border-radius: 5px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease,
+              color 0.15s ease,
+              border-color 0.15s ease;
+}
+
+.code-copy-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+.code-copy-btn.copied {
+  background: rgba(61, 214, 140, 0.1);
+  color: var(--green);
+  border-color: rgba(61, 214, 140, 0.3);
+}
+
+/* ── Copy response button ── */
+
+.copy-response-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 12px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  background: transparent;
+  border: 1px solid var(--border-default);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease,
+              background-color 0.15s ease,
+              color 0.15s ease,
+              border-color 0.15s ease;
+}
+
+.chat-message:hover .copy-response-btn {
+  opacity: 1;
+}
+
+.copy-response-btn:hover {
+  background: var(--bg-raised);
+  color: var(--text-secondary);
+  border-color: var(--border-strong);
+}
+
+.copy-response-btn.copied {
+  opacity: 1;
+  background: rgba(61, 214, 140, 0.08);
+  color: var(--green);
+  border-color: rgba(61, 214, 140, 0.25);
+}
+
+/* ── Empty state ── */
 
 .chat-empty {
   display: flex;
@@ -531,6 +641,12 @@ button {
   height: 100%;
   padding: 40px 24px;
   text-align: center;
+  animation: fade-in 0.5s ease-out;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .empty-logo {
@@ -545,6 +661,7 @@ button {
   font-size: 22px;
   font-weight: 800;
   box-shadow: 0 8px 32px rgba(99, 102, 241, 0.2);
+  animation: brand-glow 3s ease-in-out infinite;
 }
 
 .chat-empty h1 {
@@ -579,18 +696,22 @@ button {
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease,
+              color 0.15s ease,
+              border-color 0.15s ease,
+              transform 0.15s ease,
+              box-shadow 0.15s ease;
 }
 
 .suggestions button:hover {
   background: var(--bg-raised);
   color: var(--text-primary);
   border-color: var(--border-strong);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(124, 124, 248, 0.1);
 }
 
-/* ------------------------------
-   Generating indicator
--------------------------------- */
+/* ── Generating indicator ── */
 
 .generating {
   display: flex;
@@ -607,18 +728,11 @@ button {
   animation: dot-pulse 1.2s infinite ease-in-out;
 }
 
-.generating span:nth-child(2) {
-  animation-delay: 0.15s;
-}
-
-.generating span:nth-child(3) {
-  animation-delay: 0.3s;
-}
+.generating span:nth-child(2) { animation-delay: 0.15s; }
+.generating span:nth-child(3) { animation-delay: 0.3s; }
 
 @keyframes dot-pulse {
-  0%,
-  80%,
-  100% {
+  0%, 80%, 100% {
     opacity: 0.2;
     transform: scale(0.85);
   }
@@ -628,9 +742,26 @@ button {
   }
 }
 
-/* ------------------------------
-   Composer
--------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .generating span {
+    animation: none;
+  }
+
+  .chat-message {
+    animation: none;
+  }
+
+  .chat-empty {
+    animation: none;
+  }
+
+  .brand-mark,
+  .empty-logo {
+    animation: none;
+  }
+}
+
+/* ── Composer ── */
 
 .composer-wrapper {
   width: min(820px, 100%);
@@ -646,7 +777,8 @@ button {
   border: 1px solid var(--border-default);
   border-radius: 12px;
   background: var(--bg-surface);
-  transition: border-color 0.15s ease;
+  transition: border-color 0.15s ease,
+              box-shadow 0.15s ease;
 }
 
 .composer:focus-within {
@@ -661,7 +793,7 @@ button {
   padding: 6px 0;
   border: 0;
   outline: 0;
-  resize: none;
+  resize: vertical;
   background: transparent;
   color: var(--text-primary);
   font-size: 14px;
@@ -684,11 +816,19 @@ button {
   font-weight: 700;
   cursor: pointer;
   flex-shrink: 0;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease,
+              transform 0.15s ease,
+              box-shadow 0.15s ease;
 }
 
 .send-button:hover:not(:disabled) {
   background: #8b8bff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(124, 124, 248, 0.3);
+}
+
+.send-button:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .send-button:disabled {
@@ -703,9 +843,7 @@ button {
   text-align: center;
 }
 
-/* ------------------------------
-   Error
--------------------------------- */
+/* ── Error ── */
 
 .error-message {
   width: min(820px, 100%);
@@ -716,23 +854,35 @@ button {
   font-weight: 500;
 }
 
-/* ------------------------------
-   Mobile
--------------------------------- */
+/* ── Mobile ── */
 
 @media (max-width: 760px) {
   .sidebar {
     position: absolute;
+    top: 0;
+    left: 0;
     z-index: 10;
     width: 260px;
+    height: 100dvh;
+    margin-left: 0;
     box-shadow: 10px 0 40px rgba(0, 0, 0, 0.5);
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .menu-button {
-    display: grid;
-    place-items: center;
-    margin-right: 8px;
+  .sidebar.open {
+    transform: translateX(0);
   }
+
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 9;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+  }
+
 
   .messages {
     padding: 24px 16px 140px;
@@ -759,5 +909,9 @@ button {
   .message-content table {
     display: block;
     overflow-x: auto;
+  }
+
+  .copy-response-btn {
+    opacity: 1;
   }
 }

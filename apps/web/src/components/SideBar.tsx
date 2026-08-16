@@ -3,6 +3,7 @@ import type { Conversation } from '../types/chat';
 interface SideBarProps {
   conversations: Conversation[];
   activeConversationId?: string;
+  isOpen: boolean;
   onNewChat: () => void;
   onSelectConversation: (id: string) => void;
   onDeleteConversation: (id: string) => void;
@@ -11,12 +12,13 @@ interface SideBarProps {
 export function SideBar({
   conversations,
   activeConversationId,
+  isOpen,
   onNewChat,
   onSelectConversation,
   onDeleteConversation,
 }: SideBarProps) {
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
       <div className="sidebar-header">
         <div className="brand">
           <div className="brand-mark">S</div>

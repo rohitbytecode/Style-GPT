@@ -32,13 +32,19 @@ function App() {
 
   return (
     <div className="app">
+      <SideBar
+        conversations={conversations}
+        activeConversationId={conversationId}
+        onNewChat={newChat}
+        onSelectConversation={selectConversation}
+        onDeleteConversation={removeConversation}
+        isOpen={sidebarOpen}
+      />
+
       {sidebarOpen && (
-        <SideBar
-          conversations={conversations}
-          activeConversationId={conversationId}
-          onNewChat={newChat}
-          onSelectConversation={selectConversation}
-          onDeleteConversation={removeConversation}
+        <div
+          className="sidebar-backdrop"
+          onClick={() => setSidebarOpen(false)}
         />
       )}
 

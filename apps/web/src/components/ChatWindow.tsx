@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 
 import { ChatMessage } from './ChatMessage';
 import type { ChatMessage as ChatMessageType } from '../types/chat';
@@ -9,12 +9,25 @@ interface ChatWindowProps {
 }
 
 export function ChatWindow({ messages, isStreaming }: ChatWindowProps) {
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isNearBottom = useRef(true);
+
+  const checkIfNearBottom = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const threshold = 150;
+    isNearBottom.current =
+      el.scrollHeight - el.scrollTop - el.clientHeight < threshold;
+  }, []);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({
-      behavior: 'smooth',
-    });
+    if (isNearBottom.current && scrollRef.current) {
+      scrollRef.current.scrollTo({
+        top: scrollRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
   }, [messages]);
 
   if (messages.length === 0) {
@@ -36,7 +49,11 @@ export function ChatWindow({ messages, isStreaming }: ChatWindowProps) {
   }
 
   return (
-    <section className="chat-window">
+    <section
+      className="chat-window"
+      ref={scrollRef}
+      onScroll={checkIfNearBottom}
+    >
       <div className="messages">
         {messages.map((message) => (
           <ChatMessage key={message.id} message={message} />
@@ -49,8 +66,6 @@ export function ChatWindow({ messages, isStreaming }: ChatWindowProps) {
             <span />
           </div>
         )}
-
-        <div ref={bottomRef} />
       </div>
     </section>
   );
