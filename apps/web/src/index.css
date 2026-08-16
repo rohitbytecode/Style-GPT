@@ -21,7 +21,12 @@
   --green: #3dd68c;
   --red: #ef6b6b;
 
-  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-family:
+    "Inter",
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    sans-serif;
   color: var(--text-primary);
   background: var(--bg-base);
   font-synthesis: none;
@@ -118,8 +123,13 @@ button:focus-visible,
 }
 
 @keyframes brand-glow {
-  0%, 100% { box-shadow: 0 0 8px rgba(124, 124, 248, 0.2); }
-  50% { box-shadow: 0 0 20px rgba(124, 124, 248, 0.45); }
+  0%,
+  100% {
+    box-shadow: 0 0 8px rgba(124, 124, 248, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(124, 124, 248, 0.45);
+  }
 }
 
 .new-chat {
@@ -135,9 +145,10 @@ button:focus-visible,
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.15s ease,
-              color 0.15s ease,
-              border-color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .new-chat:hover {
@@ -207,8 +218,9 @@ button:focus-visible,
   font-size: 13px;
   text-align: left;
   cursor: pointer;
-  transition: background-color 0.12s ease,
-              color 0.12s ease;
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease;
 }
 
 .chat-history-item:hover {
@@ -248,9 +260,10 @@ button:focus-visible,
   cursor: pointer;
   opacity: 0;
   flex-shrink: 0;
-  transition: opacity 0.12s ease,
-              background-color 0.12s ease,
-              color 0.12s ease;
+  transition:
+    opacity 0.12s ease,
+    background-color 0.12s ease,
+    color 0.12s ease;
 }
 
 .chat-history-item:hover .chat-history-delete {
@@ -455,9 +468,15 @@ button:focus-visible,
   line-height: 1.4;
 }
 
-.message-content h1 { font-size: 20px; }
-.message-content h2 { font-size: 17px; }
-.message-content h3 { font-size: 15px; }
+.message-content h1 {
+  font-size: 20px;
+}
+.message-content h2 {
+  font-size: 17px;
+}
+.message-content h3 {
+  font-size: 15px;
+}
 
 .message-content ul,
 .message-content ol {
@@ -480,26 +499,108 @@ button:focus-visible,
   background: var(--bg-raised);
   border: 1px solid var(--border-subtle);
   color: #e2b0ff;
-  font-family: 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
+  font-family: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
   font-size: 0.85em;
 }
 
 .message-content pre {
   overflow-x: auto;
   margin: 14px 0;
-  padding: 0;
-  border: 1px solid var(--border-default);
-  border-radius: 10px;
-  background: var(--bg-surface);
+  padding: 14px 16px;
+  border: none;
+  border-radius: 12px;
+  background: #0d0d0f;
 }
 
 .message-content pre code {
   background: transparent;
   border: 0;
   color: inherit;
-  font-size: inherit;
-  line-height: inherit;
+  font-size: 13px;
+  line-height: 1.7;
   padding: 0;
+}
+
+.code-block pre {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+/* .code-block pre code {
+  display: block;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: #e4e4e7;
+  font-family: 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  white-space: pre;
+} */
+
+/* ── Code block ── */
+
+.code-block {
+  margin: 14px 0;
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0d0d0f;
+}
+
+.code-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 0px 8px 0px;
+  background: transparent;
+  border-bottom: none;
+}
+
+.code-block-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: capitalize;
+  letter-spacing: 0;
+  line-height: 0;
+}
+
+.code-block-lang svg {
+  opacity: 0.6;
+}
+
+.code-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  color: var(--text-faint);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 0;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.code-copy-btn:hover {
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.code-copy-btn.copied {
+  color: var(--green);
+  background: transparent;
 }
 
 .message-content table {
@@ -539,59 +640,6 @@ button:focus-visible,
   text-decoration: underline;
 }
 
-/* ── Code block ── */
-
-.code-block {
-  margin: 14px 0;
-  border: 1px solid var(--border-default);
-  border-radius: 10px;
-  overflow: hidden;
-  background: var(--bg-surface);
-}
-
-.code-block-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 12px;
-  background: var(--bg-raised);
-  border-bottom: 1px solid var(--border-default);
-}
-
-.code-block-lang {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.code-copy-btn {
-  padding: 3px 10px;
-  border-radius: 5px;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-default);
-  color: var(--text-secondary);
-  font-size: 11px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.15s ease,
-              color 0.15s ease,
-              border-color 0.15s ease;
-}
-
-.code-copy-btn:hover {
-  background: var(--bg-hover);
-  color: var(--text-primary);
-  border-color: var(--border-strong);
-}
-
-.code-copy-btn.copied {
-  background: rgba(61, 214, 140, 0.1);
-  color: var(--green);
-  border-color: rgba(61, 214, 140, 0.3);
-}
-
 /* ── Copy response button ── */
 
 .copy-response-btn {
@@ -608,10 +656,11 @@ button:focus-visible,
   font-weight: 500;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.2s ease,
-              background-color 0.15s ease,
-              color 0.15s ease,
-              border-color 0.15s ease;
+  transition:
+    opacity 0.2s ease,
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .chat-message:hover .copy-response-btn {
@@ -645,8 +694,12 @@ button:focus-visible,
 }
 
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .empty-logo {
@@ -696,11 +749,12 @@ button:focus-visible,
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.15s ease,
-              color 0.15s ease,
-              border-color 0.15s ease,
-              transform 0.15s ease,
-              box-shadow 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .suggestions button:hover {
@@ -728,11 +782,17 @@ button:focus-visible,
   animation: dot-pulse 1.2s infinite ease-in-out;
 }
 
-.generating span:nth-child(2) { animation-delay: 0.15s; }
-.generating span:nth-child(3) { animation-delay: 0.3s; }
+.generating span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.generating span:nth-child(3) {
+  animation-delay: 0.3s;
+}
 
 @keyframes dot-pulse {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     opacity: 0.2;
     transform: scale(0.85);
   }
@@ -777,8 +837,9 @@ button:focus-visible,
   border: 1px solid var(--border-default);
   border-radius: 12px;
   background: var(--bg-surface);
-  transition: border-color 0.15s ease,
-              box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .composer:focus-within {
@@ -816,9 +877,10 @@ button:focus-visible,
   font-weight: 700;
   cursor: pointer;
   flex-shrink: 0;
-  transition: background-color 0.15s ease,
-              transform 0.15s ease,
-              box-shadow 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .send-button:hover:not(:disabled) {
@@ -882,7 +944,6 @@ button:focus-visible,
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(2px);
   }
-
 
   .messages {
     padding: 24px 16px 140px;
