@@ -1,4 +1,4 @@
-import { CSS_SYSTEM_PROMPT } from './system-prompt.js';
+import { CSS_SYSTEM_PROMPT } from '../system-prompt.js';
 
 const OLLAMA_URL = 'http://127.0.0.1:11434';
 const MODEL = 'qwen2.5-coder:1.5b';
