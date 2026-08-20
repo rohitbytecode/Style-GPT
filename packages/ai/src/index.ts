@@ -1,5 +1,5 @@
-export { chatStream } from './providers/groq.js';
-export type { ChatMessage } from './providers/groq.js';
+export { groqProvider } from './providers/groq.js';
+export type { AIProvider, AIRequest, ChatMessage, ChatRole } from './types.js';
 
 export { CSS_SYSTEM_PROMPT } from './system-prompt.js';
 
