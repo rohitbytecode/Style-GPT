@@ -1,7 +1,6 @@
 import Groq from 'groq-sdk';
-import type { AIProvider, AIRequest, AIModel } from '../types.js';
 
-const MODEL = 'openai/gpt-oss-120b';
+import type { AIModel, AIProvider, AIRequest } from '../types.js';
 
 const client = new Groq({
   apiKey: process.env.GROQ_API_KEY,
@@ -9,7 +8,7 @@ const client = new Groq({
 
 export const groqProvider: AIProvider = {
   id: 'groq',
-  name: 'Groqq',
+  name: 'Groq',
 
   async *chatStream(request: AIRequest): AsyncGenerator<string> {
     const stream = await client.chat.completions.create({
@@ -46,9 +45,6 @@ export const groqProvider: AIProvider = {
         audioGeneration: false,
         embeddings: false,
       },
-
-      contextWindow: model.context_window,
-      maxOutputTokens: model.max_completion_tokens,
     }));
   },
 
