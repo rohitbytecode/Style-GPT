@@ -26,6 +26,9 @@ export interface AIModel {
   };
 
   contextWindow?: number;
+  maxOutputTokens?: number;
+
+  description?: string;
 }
 
 export interface AIProvider {
@@ -33,6 +36,6 @@ export interface AIProvider {
   readonly name: string;
 
   chatStream(request: AIRequest): AsyncGenerator<string>;
-  listModels(): Promise<AIModel[]>;
-  healthCheck(): Promise<boolean>;
+  listModels?(): Promise<AIModel[]>;
+  healthCheck?(): Promise<boolean>;
 }

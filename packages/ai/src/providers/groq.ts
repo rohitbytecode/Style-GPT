@@ -1,5 +1,5 @@
 import Groq from 'groq-sdk';
-import type { AIProvider, AIRequest } from '../types.js';
+import type { AIProvider, AIRequest, AIModel } from '../types.js';
 
 const MODEL = 'openai/gpt-oss-120b';
 
@@ -13,7 +13,7 @@ export const groqProvider: AIProvider = {
 
   async *chatStream(request: AIRequest): AsyncGenerator<string> {
     const stream = await client.chat.completions.create({
-      model: MODEL,
+      model: request.model,
       messages: request.messages,
       stream: true,
       temperature: request.temperature ?? 0.2,
@@ -28,5 +28,13 @@ export const groqProvider: AIProvider = {
         yield content;
       }
     }
+  },
+
+  async listModels(): Promise<AIModel[]> {
+    return [];
+  },
+
+  async healthCheck(): Promise<boolean> {
+    return false;
   },
 };
