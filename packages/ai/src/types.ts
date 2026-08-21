@@ -23,6 +23,10 @@ export interface AIModel {
     reasoning: boolean;
     vision: boolean;
     toolCalling: boolean;
+    textGeneration: boolean;
+    imageGeneration: boolean;
+    audioGeneration: boolean;
+    embeddings: boolean;
   };
 
   contextWindow?: number;

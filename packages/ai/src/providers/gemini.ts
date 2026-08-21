@@ -41,6 +41,10 @@ export const geminiProvider: AIProvider = {
           reasoning: model.thinking ?? false,
           vision: false,
           toolCalling: false,
+          textGeneration: true,
+          imageGeneration: false,
+          audioGeneration: false,
+          embeddings: false,
         },
 
         contextWindow: model.inputTokenLimit,
